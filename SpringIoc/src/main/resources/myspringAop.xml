@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="testAdvisor" class="AOPTest.TestAdvisor"></bean>
+    <bean name="testTarget" class="AOPTest.TestTarget"></bean>
+    <!--ProxyFactoryBean也是Spring IOC环境中创建AOP应用的底层方法，Spring正是通过它来实现对AOP的封装,ProxyFactoryBean会生成一个动态代理类来完成对目标方法的拦截-->
+    <bean name="testAOP" class="frameworkMy.BeanContainer.ProxBeanFactory">
+        <!--目标类-->
+        <property name="targetName" value="testTarget"></property>
+        <!--拦截类-->
+        <property name="interceptorNames">
+            <list>
+                <value>testAdvisor</value>
+            </list>
+        </property>
+    </bean>
+</beans>
