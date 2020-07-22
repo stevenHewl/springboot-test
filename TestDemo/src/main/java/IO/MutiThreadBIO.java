@@ -1,4 +1,6 @@
-package com.IO;
+package IO;
+
+import IO.ThreadHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
