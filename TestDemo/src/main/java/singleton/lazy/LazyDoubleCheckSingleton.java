@@ -2,7 +2,7 @@ package singleton.lazy;
 
 
 /*
-* 由于懒汉模式加了synchronized锁定了方法，于是出现了双重检查模式
+* 由于懒汉模式加了synchronized锁定了方法，于是出现了双重检查模式 DCL
 * 避免阻塞方法，但第一次创建还是会阻塞
 * */
 public class LazyDoubleCheckSingleton {

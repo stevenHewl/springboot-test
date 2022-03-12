@@ -2,7 +2,7 @@ package singleton.lazy;
 
 /*
 * 懒汉式：延迟加载
-* 优点：能够编码内存浪费
+* 优点：能够避免内存浪费
 * 缺点：可能创建多个实例, 加synchronized可以解决
 *
 * */
