@@ -11,35 +11,33 @@ import java.util.concurrent.FutureTask;
  */
 public class threadJoin {
     public static void main(String[] args) {
-        FutureTask<String> future = new FutureTask<String>(new MyCallable("测试future.get()"));
         try {
-            System.out.println("this is main thread begin");
-            new Thread(future).start();
-            System.out.println(future.isDone());
-            System.out.println("call future.get() main thread is blocked"); // 调用future.get()方法会阻塞主线程，如果不调用不会阻塞。
-            System.out.println(future.get());
+            FutureTask<String> future = new FutureTask<String>(new MyCallable("测试线程1"));
+            System.out.println("this is future thread begin");
+            Thread thread1 = new Thread(future);
+
+            Thread thread2 = new Thread(()->{
+                try {
+                    System.out.println("thread2 begin");
+                    System.out.println();
+                    thread1.join();
+                    System.out.println();
+                    System.out.println("thread2 done");
+                }catch (InterruptedException es){
+                    es.printStackTrace();
+                }
+            });
+
+            thread2.start();
+            thread1.start();
+
+            System.out.println("线程1结果：" + future.get());
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
-        try {
-            FutureTask<String> future2 = new FutureTask<String>(new MyCallable("测试thread.join()"));
-            System.out.println("=======================================================");
-            System.out.println("this is main thread begin");
-            Thread thread = new Thread(future2);
-            thread.start();
-            System.out.println("call thread.join(), 等待thread执行完，再执行主线程"); // 调用future.get()方法会阻塞主线程，如果不调用不会阻塞。
-            thread.join();
-            System.out.println(future2.isDone());
-            System.out.println(future2.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
     }
 }
 
@@ -55,8 +53,8 @@ class MyCallable implements Callable<String> {
         this.param = param;
     }
     public String call() throws Exception{
-        System.out.println("start new thread!, param:" + param);
+        System.out.println("start new thread，param:" + param);
         Thread.sleep(6000);
-        return "ok";
+        return param;
     }
 }
